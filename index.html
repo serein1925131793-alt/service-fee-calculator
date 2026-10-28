@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="输入服务工时，按税后时薪反算个人劳务报酬、预扣个税和开票金额。">
+<title>劳务报酬计算器 · 按到手金额反算</title>
+<style>
+:root{--bg:#eff4f7;--paper:#fff;--ink:#213c48;--muted:#607681;--sea:#245b61;--line:#dce6e9;--accent:#dcecc7;--warn:#72541f;--warnbg:#fff4dc;--radius:20px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Avenir Next","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65}button,input,select,textarea{font:inherit}button,a,input,select,summary{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #8cb1b8;outline-offset:4px}input:focus,select:focus,textarea:focus{outline:2px solid #63989c;outline-offset:2px}a{color:var(--sea);text-underline-offset:3px}main{max-width:1120px;margin:auto;padding:36px 28px 48px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:30px}.brand{display:flex;align-items:center;gap:10px;font-weight:600}.mark{width:31px;height:31px;border:1.5px solid var(--sea);border-radius:9px;display:grid;place-content:center;font-size:20px;color:var(--sea);line-height:1}.privacy{font-size:12px;color:var(--muted)}.intro{margin:22px 0 25px}.intro h1{font-size:32px;line-height:1.3;letter-spacing:-1px;margin:0 0 9px;font-weight:600}.intro p{margin:0;color:var(--muted);font-size:15px}.tax-reminder{display:flex;gap:24px;flex-wrap:wrap;padding:12px 0 4px;font-size:12px;color:var(--muted)}.tax-reminder strong{color:var(--sea);font-weight:600}.workbench{display:grid;grid-template-columns:44% 56%;border:1px solid #d6e2e5;border-radius:var(--radius);background:white;overflow:hidden;box-shadow:0 15px 40px #2c526009}.entry{padding:29px 32px 24px}.entry h2{font-size:16px;font-weight:600;margin:0 0 20px}.tabs{display:flex;padding:4px;border-radius:10px;background:#edf3f5;gap:4px;margin-bottom:25px}.tabs button{border:0;background:transparent;color:var(--muted);border-radius:7px;padding:7px 12px;flex:1}.tabs button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px #2c526012;font-weight:600}label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}.big-input{display:flex;align-items:baseline;border-bottom:2px solid var(--sea);gap:10px;padding-bottom:4px}.big-input input{min-width:0;width:100%;font-size:62px;letter-spacing:-2px;line-height:1.25;font-weight:500;color:var(--ink);border:0;background:none;padding:0;border-radius:3px;font-variant-numeric:tabular-nums}.big-input input:focus{outline-offset:5px}.big-input span{white-space:nowrap;color:var(--muted);font-size:15px}.hint{color:var(--muted);font-size:12px;margin:9px 0}.presets{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 25px}.presets button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:7px;padding:4px 13px}.presets button.active{background:#edf5f5;color:var(--sea);border-color:#8eb3b5}.rate-strip{display:flex;align-items:center;justify-content:space-between;background:#f3f7f8;padding:13px 16px;border-radius:10px;margin-top:23px}.rate-strip strong{font-size:19px;font-weight:600}.rate-strip span{font-size:13px}.linkbutton{background:transparent;border:0;color:var(--sea);text-decoration:underline;text-underline-offset:3px;padding:2px 0;font-size:12px}.settings{margin-top:24px;border-top:1px solid var(--line)}summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 0;font-weight:600}summary::-webkit-details-marker{display:none}summary::after{content:'＋';color:var(--muted);font-weight:400}details[open]>summary::after{content:'−'}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field input,.field select,.fullfield select{width:100%;border:1px solid #cbdadd;border-radius:7px;background:white;padding:9px 10px;color:var(--ink);height:42px}.fullfield{margin:15px 0}.subtext{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0 0}.scope-note{font-size:12px;color:var(--muted);margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line)}.error{color:#a13636;background:#fff0ed;padding:9px 12px;border-radius:8px;font-size:13px;margin:13px 0}.receipt{background:var(--sea);color:#fff;padding:31px 36px;display:flex;flex-direction:column}.receipt-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#c5dddf;font-size:13px}.tag{border:1px solid #ffffff36;border-radius:5px;padding:2px 8px;font-size:11px;white-space:nowrap}.total{margin:19px 0 6px;display:flex;gap:8px;align-items:baseline;font-variant-numeric:tabular-nums;line-height:1.2}.total .symbol{font-size:27px;color:#bdd7d8}.total strong{font-size:clamp(36px,4.6vw,58px);letter-spacing:-1.8px;font-weight:500;overflow-wrap:anywhere}.subamount{font-size:12px;color:#c5dddf;margin-bottom:22px}.receipt-rows{border-top:1px solid #ffffff2a}.money-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid #ffffff1c}.money-row span{font-size:13px;color:#d0e2e3}.money-row strong{font-size:18px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}.money-row .detail{font-size:11px;color:#b2d0d1}.net-box{border-radius:11px;background:var(--accent);color:var(--ink);padding:16px 19px;margin:20px 0 13px}.net-box .money-row{padding:0;border:0}.net-box .money-row span{color:var(--ink);font-weight:600}.net-box strong{font-size:26px;font-weight:600}.net-box p{margin:3px 0 0;color:#486650;font-size:11px}.receipt-note{font-size:12px;color:#c5dddf;margin:0}.actions{display:flex;gap:9px;margin-top:auto;padding-top:23px;flex-wrap:wrap}.actions button{border:1px solid #ffffff50;border-radius:8px;padding:10px 16px;color:white;background:transparent;flex:1;white-space:nowrap}.actions .primary{background:white;color:var(--sea);border-color:#fff;font-weight:600}.pending-note{display:flex;gap:10px;align-items:flex-start;margin:17px 0 24px;padding:12px 17px;background:var(--warnbg);color:var(--warn);border-radius:9px;font-size:12px}.pending-note b{white-space:nowrap}.below{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:30px}.below h2{font-size:16px;margin:0 0 10px}.below p{font-size:13px;color:var(--muted);margin:0 0 10px}.calculation{border-left:3px solid #b3ced0;padding-left:15px}.calculation p{line-height:1.9}.rulebox{border-top:1px solid #d4e1e5;margin-top:24px}.rulebox summary{font-size:13px}.rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px;padding:0 0 20px;font-size:12px;color:var(--muted)}table{border-collapse:collapse;width:100%;font-size:12px}th,td{text-align:right;padding:7px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}th{font-weight:600;color:var(--ink)}.rule-grid p{margin-top:0}.sources a{display:block;margin:5px 0}.footer{border-top:1px solid #d4e1e5;display:flex;justify-content:space-between;gap:15px;padding-top:18px;font-size:11px;color:var(--muted)}.footer-actions{display:flex;gap:18px}.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#203e49;color:#fff;padding:10px 22px;border-radius:9px;box-shadow:0 5px 20px #0002;z-index:10;max-width:90%;font-size:13px}.copybox{margin-top:15px}.copybox textarea{width:100%;height:190px;padding:12px;border:1px solid var(--line);border-radius:8px;color:var(--ink)}[hidden]{display:none!important}.print-only{display:none}.noscript{padding:20px;color:#a13636}input[type=number]::-webkit-inner-spin-button{appearance:none}input[type=number]{-moz-appearance:textfield}#surcharge-summary{color:#d9a04b}.revision{white-space:nowrap}@media(max-width:800px){main{padding:24px 20px 36px}.workbench{grid-template-columns:1fr 1.15fr}.entry{padding:24px}.receipt{padding:26px}.total strong{font-size:40px}.big-input input{font-size:54px}.net-box strong{font-size:23px}}@media(max-width:620px){main{padding:20px 16px 30px}header{margin-bottom:26px}.privacy{font-size:10px}.intro h1{font-size:28px}.intro p{font-size:13px}.workbench{grid-template-columns:1fr}.entry{padding:24px}.receipt{padding:26px 24px}.total strong{font-size:47px}.below,.rule-grid{grid-template-columns:1fr;gap:21px}.footer{flex-direction:column}.pending-note{display:block}.pending-note b{display:block;margin-bottom:4px}.actions{padding-top:19px}}@media(prefers-reduced-motion:no-preference){button{transition:background .15s,border-color .15s}button:hover{filter:brightness(.97)}}@media print{body{background:#fff;font-size:12px}main{padding:0;max-width:none}header,.tabs,.presets,.actions,.footer-actions,.settings,.linkbutton,.toast,.copybox{display:none!important}.intro{margin:0 0 16px}.intro h1{font-size:24px}.workbench{box-shadow:none;grid-template-columns:40% 60%;break-inside:avoid}.receipt{background:#fff;color:var(--ink);border-left:1px solid var(--line)}.receipt-head,.receipt-note,.subamount,.money-row span,.money-row .detail,.total .symbol{color:var(--muted)}.tag{border:1px solid var(--line)}.receipt-rows,.money-row{border-color:var(--line)}.net-box{border:1px solid var(--line);background:#f2f6f5}.big-input input{font-size:42px}.total strong{font-size:40px}.below{margin-top:20px}.pending-note{background:#fff;border:1px solid #dbc99f;margin:14px 0}.rulebox{display:none}.print-only{display:block}.footer{margin-top:20px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand"><span class="mark" aria-hidden="true">¥</span>劳务报酬计算器</div><span class="privacy">本地计算 · 输入数据不上传</span></header>
+<div class="intro"><h1>填工时，算清税前报酬。</h1><p>按税后 <span id="intro-rate">2,000</span> 元／小时，反算个人咨询服务的税前报酬与开票金额。</p><div class="tax-reminder"><span><strong>劳务个税 20% / 30% / 40%</strong> · 公司预扣</span><span><strong>开票增值税（默认 1%）</strong> · 另外计算</span></div></div>
+<noscript><p class="noscript">请开启浏览器 JavaScript 后使用本计算器。</p></noscript>
+<div class="workbench">
+<section class="entry" aria-labelledby="input-title"><h2 id="input-title">本月服务结算</h2>
+<div class="tabs" role="group" aria-label="输入方式"><button type="button" id="hours-tab" aria-pressed="true">按工时</button><button type="button" id="amount-tab" aria-pressed="false">按税后金额</button></div>
+<div id="hours-panel"><label for="hours">本月合计工时</label><div class="big-input"><input id="hours" type="number" value="20" min="0" max="10000" step="any" inputmode="decimal" aria-describedby="hours-hint error"><span>小时</span></div><p class="hint" id="hours-hint">支持小数，例如 1.5 小时 = 1 小时 30 分钟</p><div class="presets" aria-label="常用工时"><button type="button" data-hours="8">8 h</button><button type="button" data-hours="16">16 h</button><button type="button" data-hours="20" class="active">20 h</button><button type="button" data-hours="40">40 h</button></div></div>
+<div id="amount-panel" hidden><label for="target">希望税后净得</label><div class="big-input"><input id="target" type="number" value="40000" min="0" max="1000000000" step="0.01" inputmode="decimal" aria-describedby="error"><span>元</span></div><p class="hint">填写本月／本次完整的税后目标金额。</p></div>
+<div class="rate-strip"><span>税后时薪 <strong id="rate-display">¥ 2,000</strong></span><button type="button" class="linkbutton" id="edit-rate">调整</button></div>
+<div id="error" class="error" role="alert" hidden></div>
+<details class="settings" id="settings"><summary>时薪与开票设置 <span id="settings-summary">增值税 1%</span></summary>
+<div class="field"><label for="rate">税后时薪（元／小时）</label><input id="rate" type="number" value="2000" min="0.01" max="100000" step="0.01" inputmode="decimal"></div>
+<div class="fullfield"><label for="invoice-mode">开票税费口径</label><select id="invoice-mode"><option value="vat">计入增值税（默认 1%）</option><option value="exempt">已确认本次开票免税</option><option value="unknown">暂只计算个税，不计开票税费</option></select></div>
+<div id="vat-fields"><div class="field"><label for="vat-rate">实际适用增值税征收率（%）</label><input id="vat-rate" type="number" value="1" min="0" max="20" step="0.01" inputmode="decimal"></div>
+<div class="fullfield"><label for="surcharge-mode">附加税费</label><select id="surcharge-mode"><option value="unknown">待确认，暂未计入</option><option value="zero">已确认免征／为 0</option><option value="custom">填写减免后的有效比例</option></select></div>
+<div class="field" id="surcharge-field" hidden><label for="surcharge-rate">附加税费占实缴增值税的比例（%）</label><input id="surcharge-rate" type="number" placeholder="按税单填写，例如 3.5" min="0" max="30" step="0.01" inputmode="decimal"><p class="subtext">填合计有效比例，已考虑减免。例如增值税 500 元、附加 17.50 元，应填 3.5%。此数值仅为填写示例。</p></div></div>
+<p class="subtext">增值税默认按 1% 演示，请按自己的实际开票口径调整。发票通常不显示附加税费，需查看缴税记录。税费由公司承担时，一并反算到应付金额中。</p>
+</details>
+<p class="scope-note">适用：中国税收居民个人，向公司独立提供咨询等劳务。按同一项目本月合计收入测算；如已支付部分报酬，应先合并再结算差额。</p>
+</section>
+<section class="receipt" aria-label="计算结果" aria-live="polite" aria-atomic="true">
+<div class="receipt-head"><span id="total-label">公司应付总额（含增值税）</span><span class="tag">本月预扣口径</span></div>
+<div class="total"><span class="symbol">¥</span><strong id="total">50,500.00</strong></div>
+<div class="subamount" id="gross-detail">不含增值税报酬 50,000.00 元 + 增值税 500.00 元</div>
+<div class="receipt-rows"><div class="money-row"><span id="pit-label">劳务个税（本期预扣率 30%）</span><strong id="pit">− ¥ 10,000.00</strong></div><div class="money-row"><span>公司转入银行卡</span><strong id="bank">¥ 40,500.00</strong></div><div class="money-row" id="vat-row"><span>开票需缴增值税</span><strong id="vat">− ¥ 500.00</strong></div><div class="money-row" id="surcharge-row"><span>开票附加税费</span><strong id="surcharge-summary" style="font-size:13px">待确认，暂未计入</strong></div></div>
+<div class="net-box"><div class="money-row"><span id="net-label">扣除已计税费后</span><strong id="net">¥ 40,000.00</strong></div><p id="net-detail">20 小时 × 税后 2,000 元／小时</p></div>
+<p class="receipt-note" id="receipt-note">附加税费尚未确认；若实际需缴，完善设置后重算。</p>
+<div class="actions"><button type="button" class="primary" id="copy">复制结算说明</button><button type="button" id="print">打印 / 存为 PDF</button></div>
+</section></div>
+<div class="pending-note" id="pending-note"><b>还有一项待确认</b><span id="pending-text">已计入 1% 增值税；附加税费暂未计入。若实际需缴，公司应付金额还需增加，可在“时薪与开票设置”中补全。</span></div>
+<div class="copybox" id="copybox" hidden><label for="copy-text">如未自动复制，请全选下方文字复制</label><textarea id="copy-text" readonly></textarea></div>
+<div class="below"><section><h2>这笔钱怎么算</h2><div class="calculation"><p id="formula">先减除 20% 费用：50,000.00 × 80% = 40,000.00 元。<br>预扣个税：40,000.00 × 30% − 2,000 = 10,000.00 元。</p></div></section><section><h2>到手金额，分清两个时间点</h2><p>这里保证的是本月／本次扣除已计入税费后的金额。劳务报酬在次年汇算时还会并入全年综合所得，按年度 3%—45% 的综合所得税率结算，可能补税或退税。</p><p>若约定“全年最终税后每小时 2,000 元”，还需结合全年其他收入及扣除，约定汇算后的差额清算。仅凭本月工时无法确定。</p></section></div>
+<details class="rulebox"><summary>查看计税规则、适用边界与官方依据</summary><div class="rule-grid"><div><p><strong>开票时的 1% 是增值税。劳务报酬个税由支付报酬的公司另外预扣，本工具已同时计算这两项。</strong>税务局 2026 年答复再次明确：自然人代开发票时无需缴纳劳务报酬个税，由扣缴义务人依法预扣。</p><p>预扣时，收入不超过 4,000 元减除 800 元；超过 4,000 元减除 20%。扣除后的应纳税所得额按下表计算，税额最低为 0。</p><table><thead><tr><th>预扣应纳税所得额</th><th>预扣率</th><th>速算扣除</th></tr></thead><tbody><tr><td>≤ 20,000 元</td><td>20%</td><td>0 元</td></tr><tr><td>20,000—50,000 元</td><td>30%</td><td>2,000 元</td></tr><tr><td>＞ 50,000 元</td><td>40%</td><td>7,000 元</td></tr></tbody></table><p style="margin-top:12px">税率档位针对减除费用后的金额。增值税以不含增值税报酬为基数；附加以实缴增值税为基数。本工具按一般咨询劳务计算，附加税费不另从个税计税收入中扣除。</p></div><div><p>同一项目连续性收入以一个月内取得的收入为一次；不能通过拆分工时或转账次数重复享受费用扣除。本工具默认本月此前没有已扣缴金额，结果为完整结算总额。</p><p>普通个人咨询不应直接套用“月销售额 10 万元免税”；自然人增值税的适用口径、免税及附加减免以开票地税务机关确认为准。选择免税意味着你已确认其适用。</p><p>金额保留到分，逐项四舍五入，按净额不低于目标反算。若税务系统舍入规则不同，以实际申报复核。工具不覆盖经营所得、非居民、平台特殊预扣、社保、印花税或其他未填税费。</p><div class="sources"><a href="https://tianjin.chinatax.gov.cn/11200000000/0300/030005/p20260129152741507.shtml" target="_blank" rel="noopener noreferrer">税务局 2026 年答复：代开发票与劳务个税分别处理</a><a href="https://www.chinatax.gov.cn/chinatax/n810341/n810765/n3359382/201812/c4182700/content.html" target="_blank" rel="noopener noreferrer">国家税务总局公告 2018 年第 61 号</a><a href="https://www.chinatax.gov.cn/chinatax/n810214/n810641/n2985871/n2985888/n2986028/c4001080/content.html" target="_blank" rel="noopener noreferrer">官方解读与劳务报酬预扣率表</a><a href="https://shanghai.chinatax.gov.cn/zcfw/zcfgk/grsds/201809/t441789.html" target="_blank" rel="noopener noreferrer">个人所得税法：年度综合所得汇算</a><a href="https://shanghai.chinatax.gov.cn/zzzb/zcwj/202602/t479283.html" target="_blank" rel="noopener noreferrer">2026 年第 10 号：增值税优惠衔接</a><a href="https://zhejiang.chinatax.gov.cn/art/2026/2/2/art_8409_84409.html" target="_blank" rel="noopener noreferrer">2026 年第 4 号：增值税征管事项</a></div></div></div></details>
+<footer class="footer"><span>居民个人劳务报酬测算 · 规则核对于 2026-10-28<br>结算前由公司财务结合实际开票与扣缴记录复核。</span><div class="footer-actions"><button type="button" class="linkbutton" id="download">保存离线网页版</button><button type="button" class="linkbutton" id="reset">恢复示例</button></div></footer>
+</main><div id="toast" class="toast" role="status" hidden></div>
+<script id="tax-engine">
+/* All monetary inputs and outputs are integer cents. No network or storage. */
+const TaxEngine=(()=>{
+  const round=x=>Math.round(x+1e-7);
+  function tax(g){
+    if(!Number.isSafeInteger(g)||g<0)throw Error('Invalid gross');
+    const taxable=g<=400000?Math.max(0,g-80000):round(g*4/5);
+    const rate=taxable<=2000000?20:taxable<=5000000?30:40;
+    const quick=rate===20?0:rate===30?200000:700000;
+    return {taxable,rate,quick,pit:Math.max(0,round(taxable*rate/100)-quick)};
+  }
+  function quote(g,vatRate=0,surchargeRate=0){
+    const t=tax(g),vat=round(g*vatRate/100),surcharge=round(vat*surchargeRate/100);
+    return {...t,gross:g,vat,surcharge,total:g+vat,bank:g+vat-t.pit,net:g-t.pit-surcharge};
+  }
+  function solve(target,vatRate=0,surchargeRate=0){
+    if(!Number.isSafeInteger(target)||target<0||target>100000000000)throw Error('金额超出支持范围');
+    if(!Number.isFinite(vatRate)||vatRate<0||vatRate>20||!Number.isFinite(surchargeRate)||surchargeRate<0||surchargeRate>30)throw Error('税率超出支持范围');
+    if(target===0)return quote(0,vatRate,surchargeRate);
+    const continuous=g=>{const b=g<=400000?Math.max(0,g-80000):g*.8;const p=b<=2000000?b*.2:b<=5000000?b*.3-200000:b*.4-700000;return g-p-g*vatRate*surchargeRate/10000;};
+    let lo=0,hi=target*3+100000;
+    for(let i=0;i<70;i++){const m=(lo+hi)/2;if(continuous(m)<target)lo=m;else hi=m;}
+    // Rounding multiple taxes can create a one-cent dip. Search the local
+    // cent neighborhood rather than binary-searching the rounded net.
+    for(let g=Math.max(0,Math.floor(hi)-20);g<=Math.ceil(hi)+20;g++){
+      const q=quote(g,vatRate,surchargeRate);if(q.net>=target)return q;
+    }
+    throw Error('无法完成反算，请检查输入');
+  }
+  return {tax,quote,solve};
+})();
+</script>
+<script id="app">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id),num=new Intl.NumberFormat('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}),short=new Intl.NumberFormat('zh-CN',{maximumFractionDigits:4}),money=c=>num.format(c/100),yuan=c=>'¥ '+money(c);
+let mode='hours',current=null,timer;
+const ids=['hours','target','rate','invoice-mode','vat-rate','surcharge-mode','surcharge-rate'];
+function read(id,min,max,decimals){const raw=$(id).value.trim(),v=Number(raw);if(raw===''||!Number.isFinite(v)||v<min||v>max||(decimals!==undefined&&Math.abs(v*10**decimals-Math.round(v*10**decimals))>1e-5)){ $(id).setAttribute('aria-invalid','true');throw Error(({hours:'工时需填写 0—10,000 的数字。',target:'税后金额需填写 0—10 亿的数字，最多两位小数。',rate:'时薪需填写 0.01—100,000 元，最多两位小数。','vat-rate':'增值税率需填写 0—20%，最多两位小数。','surcharge-rate':'请填写已确认的附加有效比例（0—30%，最多两位小数）。'})[id]);}return v;}
+function setMode(value){mode=value;$('hours-panel').hidden=mode!=='hours';$('amount-panel').hidden=mode!=='amount';$('hours-tab').setAttribute('aria-pressed',mode==='hours');$('amount-tab').setAttribute('aria-pressed',mode==='amount');render();}
+function render(){
+ids.forEach(id=>$(id).removeAttribute('aria-invalid'));$('error').hidden=true;$('copybox').hidden=true;
+const invoice=$('invoice-mode').value,sm=$('surcharge-mode').value;
+$('vat-fields').hidden=invoice!=='vat';$('surcharge-field').hidden=sm!=='custom';
+try{
+const rate=read('rate',.01,100000,2),hours=mode==='hours'?read('hours',0,10000):null,target=mode==='hours'?Math.round(hours*rate*100+1e-7):Math.round(read('target',0,1e9,2)*100+1e-7);
+const vr=invoice==='vat'?read('vat-rate',0,20,2):0,sr=invoice==='vat'&&sm==='custom'?read('surcharge-rate',0,30,2):0,q=TaxEngine.solve(target,vr,sr),missing=invoice==='unknown'||(invoice==='vat'&&sm==='unknown');
+current={...q,target,hours,rate,vr,sr,invoice,sm,missing,mode};
+$('intro-rate').textContent=short.format(rate);$('rate-display').textContent='¥ '+short.format(rate);
+$('settings-summary').textContent=invoice==='vat'?'增值税 '+short.format(vr)+'%':invoice==='exempt'?'已确认免税':'只算个税';
+$('total-label').textContent=invoice==='unknown'?'税前劳务报酬（未计开票税费）':invoice==='exempt'?'公司应付总额（已确认开票免税）':'公司应付总额（含增值税）';
+$('total').textContent=money(q.total);$('gross-detail').textContent=invoice==='vat'?'不含增值税报酬 '+money(q.gross)+' 元 + 增值税 '+money(q.vat)+' 元':'税前劳务报酬 '+money(q.gross)+' 元';
+$('pit-label').textContent='劳务个税（本期预扣率 '+q.rate+'%）';$('pit').textContent='− '+yuan(q.pit);$('bank').textContent=yuan(q.bank);$('vat').textContent='− '+yuan(q.vat);$('net').textContent=yuan(q.net);
+$('vat-row').hidden=invoice!=='vat';$('surcharge-row').hidden=invoice!=='vat';
+$('surcharge-summary').textContent=sm==='unknown'?'待确认，暂未计入':'− '+yuan(q.surcharge);$('surcharge-summary').style.color=sm==='unknown'?'#f6cf8d':'#ffffff';
+$('net-label').textContent=missing?'扣除已计税费后':'缴完所列税费后净得';
+$('net-detail').textContent=mode==='hours'?short.format(hours)+' 小时 × 税后 '+short.format(rate)+' 元／小时':'税后目标 '+money(target)+' 元';
+if(q.net>target)$('net-detail').textContent+='（舍入多 '+money(q.net-target)+' 元）';
+$('receipt-note').textContent=missing?(invoice==='unknown'?'开票税费暂未计入；本结果只保证扣个税后的金额。':'附加税费尚未确认；若实际需缴，完善设置后重算。'):'增值税及附加通常在代开发票时缴纳，银行到账不等于最终净得。';
+$('pending-note').hidden=!missing;$('pending-text').textContent=invoice==='unknown'?'增值税及附加均未计入。若需要缴纳，请在“时薪与开票设置”中补全后，再用于结算。':'已计入 '+short.format(vr)+'% 增值税；附加税费暂未计入。若实际需缴，公司应付金额还需增加，可在“时薪与开票设置”中补全。';
+const expense=q.gross<=400000?'减除 800 元费用，所得额最低为 0':'减除 20% 费用';
+$('formula').replaceChildren();
+for(const text of [expense+'：应纳税所得额 '+money(q.taxable)+' 元。','预扣个税：'+money(q.taxable)+' × '+q.rate+'% − '+money(q.quick)+' = '+money(q.pit)+' 元。',invoice==='vat'?'净得：'+money(q.total)+' − 个税 '+money(q.pit)+' − 增值税 '+money(q.vat)+' − '+(sm==='unknown'?'附加（暂按 0）':'附加 '+money(q.surcharge))+' = '+money(q.net)+' 元。':'税后：'+money(q.gross)+' − '+money(q.pit)+' = '+money(q.net)+' 元。']){const span=document.createElement('span');span.textContent=text;$('formula').append(span,document.createElement('br'));}
+$('copy').disabled=false;$('print').disabled=false;
+document.querySelectorAll('[data-hours]').forEach(b=>b.classList.toggle('active',mode==='hours'&&Number(b.dataset.hours)===hours));
+}catch(e){current=null;$('error').textContent=e.message;$('error').hidden=false;['total','gross-detail','pit','bank','vat','surcharge-summary','net','net-detail','formula'].forEach(id=>$(id).textContent='—');$('receipt-note').textContent='完善左侧输入后自动计算。';$('copy').disabled=true;$('print').disabled=true;$('pending-note').hidden=true;}
+}
+function textForFinance(){const c=current;return [
+'个人咨询服务劳务报酬结算测算',
+c.mode==='hours'?'本月工时：'+short.format(c.hours)+' 小时；税后时薪：'+short.format(c.rate)+' 元。':'本月／本次按税后金额结算。',
+'税后目标：'+money(c.target)+' 元。',
+'不含增值税的税前劳务报酬：'+money(c.gross)+' 元。',
+c.invoice==='vat'?'增值税（'+short.format(c.vr)+'%）：'+money(c.vat)+' 元。':c.invoice==='exempt'?'开票税费：已确认免税。':'开票税费：未计入。',
+'公司应付'+(c.invoice==='vat'?'价税合计':'金额')+'：'+money(c.total)+' 元。',
+'公司预扣个人所得税：'+money(c.pit)+' 元；银行转账：'+money(c.bank)+' 元。',
+c.invoice==='vat'?(c.sm==='unknown'?'附加税费待确认，暂未计入。':'附加税费：'+money(c.surcharge)+' 元（实缴增值税 × '+short.format(c.sr)+'%）。'):'',
+'扣除已计入税费后：'+money(c.net)+' 元。',
+c.missing?'注意：尚有开票税费未确认，本金额不是全部税费已核定后的最终报价。':'',
+'按居民个人劳务报酬本月／本次预扣规则计算，同一项目同月收入应合并。本测算假设此前无已支付金额；如有应合并重算并扣除已付。次年综合所得汇算另行多退少补，需约定差额清算。',
+'计税金额按分舍入；实际以财务及税务申报复核。规则核对日期：2026-10-28。'
+].filter(Boolean).join('\n');}
+function toast(t){clearTimeout(timer);$('toast').textContent=t;$('toast').hidden=false;timer=setTimeout(()=>$('toast').hidden=true,2800);}
+ids.forEach(id=>$(id).addEventListener('input',render));
+$('hours-tab').onclick=()=>setMode('hours');$('amount-tab').onclick=()=>setMode('amount');
+document.querySelectorAll('[data-hours]').forEach(b=>b.onclick=()=>{$('hours').value=b.dataset.hours;setMode('hours');});
+$('edit-rate').onclick=()=>{$('settings').open=true;$('rate').focus();$('rate').select();};
+$('copy').onclick=async()=>{if(!current)return;const t=textForFinance();try{await navigator.clipboard.writeText(t);toast('结算说明已复制');}catch{$('copy-text').value=t;$('copybox').hidden=false;$('copy-text').focus();$('copy-text').select();toast('请复制已选中的结算说明');}};
+$('print').onclick=()=>{if(current)window.print();};
+$('reset').onclick=()=>{Object.entries({hours:'20',target:'40000',rate:'2000','invoice-mode':'vat','vat-rate':'1','surcharge-mode':'unknown','surcharge-rate':''}).forEach(([k,v])=>$(k).value=v);$('settings').open=false;setMode('hours');toast('已恢复 20 小时示例');};
+$('download').onclick=()=>{
+ const clone=document.documentElement.cloneNode(true);
+ clone.querySelectorAll('input').forEach(el=>el.setAttribute('value',$(el.id).value));
+ clone.querySelectorAll('select').forEach(el=>Array.from(el.options).forEach(o=>o.toggleAttribute('selected',o.value===$(el.id).value)));
+ clone.querySelector('#toast').hidden=true;clone.querySelector('#copybox').hidden=true;
+ clone.querySelector('#app').textContent=clone.querySelector('#app').textContent.replace(/let mode=(?:'hours'|'amount'|"hours"|"amount")/,"let mode="+JSON.stringify(mode));
+ const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='劳务报酬计算器.html';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('离线网页版已保存，双击即可使用');
+};
+setMode(mode);
+})();
+</script>
+</body></html>
